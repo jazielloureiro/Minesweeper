@@ -1,0 +1,15 @@
+apply plugin: 'java'
+apply plugin: 'jacoco'
+apply plugin: 'application'
+
+    group = 'com.jazielloureiro'
+
+mainClassName = 'com.jazielloureiro.minesweeper.Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation     'junit:junit:4.13'
+}
