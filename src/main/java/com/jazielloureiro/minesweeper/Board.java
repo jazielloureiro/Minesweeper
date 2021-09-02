@@ -1,8 +1,11 @@
 package com.jazielloureiro.minesweeper;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.Random;
+import javax.swing.JPanel;
 
-public class Board {
+public class Board extends JPanel {
 	private Square[][] board;
 	private final int rows, cols, bombs;
 
@@ -12,6 +15,8 @@ public class Board {
 		this.bombs = bombs;
 		
 		initBoard();
+		
+		setPanelConfigs();
 	}
 	
 	private void initBoard() {
@@ -42,5 +47,18 @@ public class Board {
 		}
 		
 		return places;
+	}
+	
+	private void setPanelConfigs() {
+		setLayout(new GridLayout(rows, cols));
+		
+		setPreferredSize(new Dimension(
+			board[0][0].getIcon().getIconWidth() * rows,
+			board[0][0].getIcon().getIconHeight() * cols
+		));
+		
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < cols; j++)
+				add(board[i][j]);
 	}
 }
