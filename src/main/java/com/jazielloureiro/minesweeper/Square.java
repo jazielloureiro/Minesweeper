@@ -32,8 +32,28 @@ public class Square extends JButton {
 		return row;
 	}
 
+	public int getPrevRow() {
+		return row == 0? 0 : row - 1;
+	}
+
+	public int getNextRow(int maxRow) {
+		return row + 1 == maxRow? row : row + 1;
+	}
+
 	public int getCol() {
 		return col;
+	}
+
+	public int getPrevCol() {
+		return col == 0? 0 : col - 1;
+	}
+
+	public int getNextCol(int maxCol) {
+		return col + 1 == maxCol? col : col + 1;
+	}
+
+	public IconId getIconId() {
+		return icon;
 	}
 	
 	public void setIconById(IconId id) {
