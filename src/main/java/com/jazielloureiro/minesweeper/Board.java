@@ -55,8 +55,8 @@ public class Board extends JPanel {
 		setLayout(new GridLayout(rows, cols));
 		
 		setPreferredSize(new Dimension(
-			board[0][0].getIcon().getIconWidth() * rows,
-			board[0][0].getIcon().getIconHeight() * cols
+			board[0][0].getIcon().getIconWidth() * cols,
+			board[0][0].getIcon().getIconHeight() * rows
 		));
 	}
 	
