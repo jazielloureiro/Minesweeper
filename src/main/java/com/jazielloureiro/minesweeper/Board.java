@@ -2,6 +2,8 @@ package com.jazielloureiro.minesweeper;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 import javax.swing.JPanel;
 
@@ -15,8 +17,8 @@ public class Board extends JPanel {
 		this.bombs = bombs;
 		
 		initBoard();
-		
 		setPanelConfigs();
+		setBoardToPanel();
 	}
 	
 	private void initBoard() {
@@ -56,9 +58,48 @@ public class Board extends JPanel {
 			board[0][0].getIcon().getIconWidth() * rows,
 			board[0][0].getIcon().getIconHeight() * cols
 		));
-		
-		for(int i = 0; i < rows; i++)
-			for(int j = 0; j < cols; j++)
+	}
+	
+	private void setBoardToPanel() {
+		for(int i = 0; i < rows; i++) {
+			for(int j = 0; j < cols; j++) {
 				add(board[i][j]);
+				
+				board[i][j].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						click((Square) ae.getSource());
+					}
+				});
+			}
+		}
+	}
+	
+	private void click(Square sqr) {
+		if(sqr.getIconId() != IconId.UNOPENED)
+			return;
+		else if(sqr.hasBomb())
+			sqr.setIconById(IconId.BOMB);
+		else {
+			int bombsNearSquare = countBombsNearSquare(sqr);
+			
+			sqr.setIconById(IconId.valueOf("NUMBER_" + bombsNearSquare));
+			
+			if(bombsNearSquare == 0)
+				for(int i = sqr.getPrevRow(); i <= sqr.getNextRow(rows); i++)
+					for(int j = sqr.getPrevCol(); j <= sqr.getNextCol(cols); j++)
+						click(board[i][j]);
+		}
+	}
+	
+	private int countBombsNearSquare(Square sqr) {
+		int bombsNearSquare = 0;
+		
+		for(int i = sqr.getPrevRow(); i <= sqr.getNextRow(rows); i++)
+			for(int j = sqr.getPrevCol(); j <= sqr.getNextCol(cols); j++)
+				if(board[i][j].hasBomb())
+					bombsNearSquare++;
+		
+		return bombsNearSquare;
 	}
 }
