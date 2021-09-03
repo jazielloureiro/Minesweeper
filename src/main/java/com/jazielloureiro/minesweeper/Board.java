@@ -79,7 +79,7 @@ public class Board extends JPanel {
 		if(sqr.getIconId() != IconId.UNOPENED)
 			return;
 		else if(sqr.hasBomb())
-			sqr.setIconById(IconId.BOMB);
+			showAllBombs();
 		else {
 			int bombsNearSquare = countBombsNearSquare(sqr);
 			
@@ -90,6 +90,13 @@ public class Board extends JPanel {
 					for(int j = sqr.getPrevCol(); j <= sqr.getNextCol(cols); j++)
 						click(board[i][j]);
 		}
+	}
+	
+	private void showAllBombs() {
+		for(int i = 0; i < rows; i++)
+			for(int j = 0; j < cols; j++)
+				if(board[i][j].hasBomb())
+					board[i][j].setIconById(IconId.BOMB);
 	}
 	
 	private int countBombsNearSquare(Square sqr) {
