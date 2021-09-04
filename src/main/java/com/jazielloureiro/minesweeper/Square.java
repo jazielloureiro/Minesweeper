@@ -1,11 +1,8 @@
 package com.jazielloureiro.minesweeper;
 
 import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.SwingUtilities;
 
 public class Square extends JButton {
 	private final boolean bomb;
@@ -20,8 +17,6 @@ public class Square extends JButton {
 		setIconById(IconId.UNOPENED);
 		
 		setButtonConfigs();
-		
-		setRightClickEvent();
 	}
 
 	public boolean hasBomb() {
@@ -65,19 +60,5 @@ public class Square extends JButton {
 		setSize(getIcon().getIconWidth(), getIcon().getIconHeight());
 		setBorder(null);
 		setMargin(new Insets(0, 0, 0, 0));
-	}
-	
-	private void setRightClickEvent() {
-		addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(SwingUtilities.isRightMouseButton(e)) {
-					if(icon == IconId.UNOPENED)
-						setIconById(IconId.FLAG);
-					else if(icon == IconId.FLAG)
-						setIconById(IconId.UNOPENED);
-				}
-			}
-		});
 	}
 }

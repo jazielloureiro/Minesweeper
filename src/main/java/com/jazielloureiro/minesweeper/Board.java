@@ -4,8 +4,11 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class Board extends JPanel {
 	private Square[][] board;
@@ -63,16 +66,34 @@ public class Board extends JPanel {
 	private void setBoardToPanel() {
 		for(int i = 0; i < rows; i++) {
 			for(int j = 0; j < cols; j++) {
+				setLeftClickEvent(board[i][j]);
+				setRightClickEvent(board[i][j]);
 				add(board[i][j]);
-				
-				board[i][j].addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent ae) {
-						click((Square) ae.getSource());
-					}
-				});
 			}
 		}
+	}
+	
+	private void setLeftClickEvent(Square sqr) {
+		sqr.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent ae) {
+				click((Square) ae.getSource());
+			}
+		});
+	}
+	
+	private void setRightClickEvent(Square sqr) {
+		sqr.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(SwingUtilities.isRightMouseButton(e)) {
+					if(sqr.getIconId() == IconId.UNOPENED)
+						sqr.setIconById(IconId.FLAG);
+					else if(sqr.getIconId() == IconId.FLAG)
+						sqr.setIconById(IconId.UNOPENED);
+				}
+			}
+		});
 	}
 	
 	private void click(Square sqr) {
