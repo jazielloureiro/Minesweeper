@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 public class Board extends JPanel {
 	private Square[][] board;
 	private final int rows, cols, bombs;
+	private boolean isGameOver = false;
 
 	public Board(int rows, int cols, int bombs) {
 		this.rows = rows;
@@ -86,7 +87,7 @@ public class Board extends JPanel {
 		sqr.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(SwingUtilities.isRightMouseButton(e)) {
+				if(SwingUtilities.isRightMouseButton(e) && !isGameOver) {
 					if(sqr.getIconId() == IconId.UNOPENED)
 						sqr.setIconById(IconId.FLAG);
 					else if(sqr.getIconId() == IconId.FLAG)
@@ -97,11 +98,12 @@ public class Board extends JPanel {
 	}
 	
 	private void click(Square sqr) {
-		if(sqr.getIconId() != IconId.UNOPENED)
+		if(sqr.getIconId() != IconId.UNOPENED || isGameOver)
 			return;
-		else if(sqr.hasBomb())
+		else if(sqr.hasBomb()) {
+			isGameOver = true;
 			showAllBombs();
-		else {
+		} else {
 			int bombsNearSquare = countBombsNearSquare(sqr);
 			
 			sqr.setIconById(IconId.valueOf("NUMBER_" + bombsNearSquare));
