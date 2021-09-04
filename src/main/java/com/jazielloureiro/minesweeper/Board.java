@@ -13,12 +13,14 @@ import javax.swing.SwingUtilities;
 public class Board extends JPanel {
 	private Square[][] board;
 	private final int rows, cols, bombs;
+	private int unopenedSquares;
 	private boolean isGameOver = false;
 
 	public Board(int rows, int cols, int bombs) {
 		this.rows = rows;
 		this.cols = cols;
 		this.bombs = bombs;
+		unopenedSquares = rows * cols;
 		
 		initBoard();
 		setPanelConfigs();
@@ -105,13 +107,18 @@ public class Board extends JPanel {
 			showAllBombs();
 		} else {
 			int bombsNearSquare = countBombsNearSquare(sqr);
-			
+
 			sqr.setIconById(IconId.valueOf("NUMBER_" + bombsNearSquare));
-			
+
 			if(bombsNearSquare == 0)
 				for(int i = sqr.getPrevRow(); i <= sqr.getNextRow(rows); i++)
 					for(int j = sqr.getPrevCol(); j <= sqr.getNextCol(cols); j++)
 						click(board[i][j]);
+			
+			unopenedSquares--;
+			
+			if(unopenedSquares == bombs)
+				showAllBombs();
 		}
 	}
 	
