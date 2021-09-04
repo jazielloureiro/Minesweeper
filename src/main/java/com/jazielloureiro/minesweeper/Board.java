@@ -13,7 +13,7 @@ import javax.swing.SwingUtilities;
 public class Board extends JPanel {
 	private Square[][] board;
 	private final int rows, cols, bombs;
-	private int unopenedSquares;
+	private int unopenedSquares, flags = 0;
 	private boolean isGameOver = false;
 
 	public Board(int rows, int cols, int bombs) {
@@ -90,10 +90,13 @@ public class Board extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(SwingUtilities.isRightMouseButton(e) && !isGameOver) {
-					if(sqr.getIconId() == IconId.UNOPENED)
+					if(sqr.getIconId() == IconId.UNOPENED && flags < bombs) {
 						sqr.setIconById(IconId.FLAG);
-					else if(sqr.getIconId() == IconId.FLAG)
+						flags++;
+					} else if(sqr.getIconId() == IconId.FLAG) {
 						sqr.setIconById(IconId.UNOPENED);
+						flags--;
+					}
 				}
 			}
 		});
