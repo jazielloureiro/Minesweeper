@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -108,6 +109,7 @@ public class Board extends JPanel {
 		else if(sqr.hasBomb()) {
 			isGameOver = true;
 			showAllBombs();
+			showFinalMessage("Game Over!");
 		} else {
 			int bombsNearSquare = countBombsNearSquare(sqr);
 
@@ -121,7 +123,7 @@ public class Board extends JPanel {
 			unopenedSquares--;
 			
 			if(unopenedSquares == bombs)
-				showAllBombs();
+				showFinalMessage("Congratulations, You win!");
 		}
 	}
 	
@@ -141,5 +143,15 @@ public class Board extends JPanel {
 					bombsNearSquare++;
 		
 		return bombsNearSquare;
+	}
+	
+	private void showFinalMessage(String msg) {
+		JOptionPane.showMessageDialog(
+			null,
+			msg,
+			"Minesweeper",
+			JOptionPane.INFORMATION_MESSAGE
+		);
+		SwingUtilities.getWindowAncestor(this).dispose();
 	}
 }

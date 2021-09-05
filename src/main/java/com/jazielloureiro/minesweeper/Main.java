@@ -9,7 +9,7 @@ public class Main {
 		test.pack();
 		test.setTitle("Minesweeper");
 		test.setLocationRelativeTo(null);
-		test.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		test.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		test.setVisible(true);
 	}
 }
