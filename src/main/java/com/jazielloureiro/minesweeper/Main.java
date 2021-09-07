@@ -23,7 +23,11 @@ public class Main {
 			new String[]{"Easy", "Medium", "Hard", "Custom"},
 			null
 		);
-		
+
+		setDifficultyFromOption(option);
+	}
+	
+	private static void setDifficultyFromOption(int option) {
 		switch(option) {
 			case 0:
 				createGame(new Board(8, 8, 10));
