@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Main {
@@ -55,7 +56,15 @@ public class Main {
 	}
 	
 	private static void createGame(Board board) {
-		Game game = new Game(board);
+		JFrame game = new JFrame();
+		game.add(board);
+		game.pack();
+		game.setTitle("Minesweeper");
+		game.setResizable(false);
+		game.setLocationRelativeTo(null);
+		game.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		game.setVisible(true);
+		
 		game.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
